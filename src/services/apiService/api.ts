@@ -4,7 +4,8 @@ import { useRef, useContext } from 'react';
 import gameContext from "../../gameContext";
 import {useEffect} from 'react';
 import { AlertCheckDialog,AlertErrorDialog,AlertQuestionDialog,AlertWarningDialog } from "../../components/dialogbox";
-const URL='http://localhost:9000';
+const URL='https://sudoku-server-2sz5.onrender.com/';
+const CLIENT_URL='https://sudoku-master-2sz5.onrender.com';
 const list=[];
 const populate_list=(data)=>{list.push(data)};
 const addUser=async (data) =>{
@@ -123,7 +124,7 @@ const joiningHall=async(token)=>{
     {
         if(err.response.status===401)
         {
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
             localStorage.removeItem('token');
         }
     }
@@ -143,7 +144,7 @@ const joiningLevelPicker=async(token)=>{
     {
         if(err.response.status===401)
         {
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
             localStorage.removeItem('token');
         }
     }
@@ -161,7 +162,7 @@ const joiningRoom=async(token)=>{
     catch(error)
     {   if(error.response.status===401)
         {
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
             localStorage.removeItem('token');
         }
         console.log('There is '+error+' in the process');
@@ -186,7 +187,7 @@ const userInfo=async(token,username)=>{
         else if(error.response.status===401)
         {
             localStorage.removeItem('token');
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
         }
         console.log('There is '+error+' in the process');
         throw error;
@@ -221,7 +222,7 @@ try{
     return await axios.get(`${URL}/user_detail/${username}`,{params:{token:token}}).then((res)=>{
    if(res.status===200)
    {
-    window.location.assign(`http://localhost:3000/user_detail/${username}`);
+    window.location.assign(`${CLIENT_URL}/user_detail/${username}`);
    }
     });
 }
@@ -231,7 +232,7 @@ catch(error)
     {
         
         localStorage.removeItem('token');
-        window.location.assign('http://localhost:3000/login');
+        window.location.assign(`${CLIENT_URL}/login`);
     }
 }
 }
@@ -289,7 +290,7 @@ catch(err)
 {
     if(err.response.status===401 || err.response.status===404)
     {
-        window.location.assign('http://localhost:3000/login');
+        window.location.assign(`${CLIENT_URL}/login`);
     }
     else if(err.response.status===503)
     {
@@ -313,7 +314,7 @@ const countNumsComment=async(token)=>
         if(err.response.status===401 || err.response.status===404)
         {
          localStorage.removeItem('token');
-         window.location.assign('http://localhost:3000/login');
+         window.location.assign(`${CLIENT_URL}/login`);
         }
     }
 }
@@ -329,7 +330,7 @@ try
    {
      var room_name=res.data.room_name;
      localStorage.setItem('room_name',room_name);
-     window.location.assign(`http://localhost:3000/waiting_room/${room_name}`);
+     window.location.assign(`${CLIENT_URL}/waiting_room/${room_name}`);
    }
   });
 }
@@ -338,7 +339,7 @@ catch(err)
     if(err.response.status===401)
     {
         localStorage.removeItem('token');
-        window.location.assign('http://localhost:3000/login');
+        window.location.assign(`${CLIENT_URL}/login`);
     }
 }
 
@@ -353,7 +354,7 @@ catch(err)
 {
 if(err.response.status===401)
 {   
-    window.location.assign('http://localhost:3000/login');
+    window.location.assign(`${CLIENT_URL}/login`);
     return false;
 }
 }
@@ -398,7 +399,7 @@ const getStatistics=async(token,userName)=>
             localStorage.setItem('hard_lose',list_multiplayer_statis[5]);
             localStorage.setItem('extreme_win',list_multiplayer_statis[6]);
             localStorage.setItem('extreme_lose',list_multiplayer_statis[7]);
-            window.location.assign(`http://localhost:3000/statistics/${userName}`);
+            window.location.assign(`${CLIENT_URL}/statistics/${userName}`);
         }
     });
  }
@@ -407,7 +408,7 @@ const getStatistics=async(token,userName)=>
     if(err.response.status===401 || err.response.status===404)
     {
      localStorage.removeItem('token');
-     window.location.assign('http://localhost:3000/login');
+     window.location.assign(`${CLIENT_URL}/login`);
     }
  }
 }
@@ -423,14 +424,14 @@ const getCommentSection=async(token)=>
     {
     if(res.status===200)
     {
-          window.location.assign('http://localhost:3000/comment');
+          window.location.assign(`${CLIENT_URL}/comment`);
     }
     }
     catch(err)
     { 
    if(err.response.status===401 || err.response.status===404)
    {
-    window.location.assign('http://localhost:3000/login');
+    window.location.assign(`${CLIENT_URL}/login`);
    }
     }
     });
@@ -444,7 +445,7 @@ const getMatch=async(token,roomName)=>
      return axios.get(`${URL}/match/${roomName}`,{params:{token:token}}).then((res)=>{
         if(res.status===200)
         {   
-            window.location.assign(`http://localhost:3000/match/${res.data.room_name}`);
+            window.location.assign(`${CLIENT_URL}/match/${res.data.room_name}`);
         }
      })
     }
@@ -452,7 +453,7 @@ const getMatch=async(token,roomName)=>
     {
         if(err.response.status===401)
         {
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
             return false;
         }
     }

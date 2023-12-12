@@ -85,6 +85,7 @@ function JoinRoom()
     const {userName,setUserName}=useContext(gameContext);
     const {email,setEmail}=useContext(gameContext);
     const navigate=useNavigate();
+    const CLIENT_URL='https://sudoku-master-2sz5.onrender.com';
     const handleRoomNameChange=(e:React.ChangeEvent<any>)=>{
         e.preventDefault();
         const value=e.target.value;
@@ -115,7 +116,7 @@ function JoinRoom()
         if(!res)
         {
             localStorage.removeItem('token');
-            window.location.assign('http://localhost:3000/login');
+            window.location.assign(`${CLIENT_URL}/login`);
         }
         });
     }

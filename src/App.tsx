@@ -43,9 +43,9 @@ function App() {
   align-items: center;
   justify-content: center;
 `;
+ const SERVER_URL='https://sudoku-server-2sz5.onrender.com/';
   const connectSocket=async()=>{
-    const socket=await socketService.connect("http://localhost:9000").catch((err)=>{console.log(err);});
-    
+    const socket=await socketService.connect(SERVER_URL).catch((err)=>{console.log(err);});
   };
   const [isInRoom,setIsInRoom]=useState(false);
   const [isGameStarted,setIsGameStarted]=useState(false);
