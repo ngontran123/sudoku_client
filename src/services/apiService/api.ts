@@ -4,8 +4,8 @@ import { useRef, useContext } from 'react';
 import gameContext from "../../gameContext";
 import {useEffect} from 'react';
 import { AlertCheckDialog,AlertErrorDialog,AlertQuestionDialog,AlertWarningDialog } from "../../components/dialogbox";
-const URL='https://sudoku-server-2sz5.onrender.com/';
-const CLIENT_URL='https://sudoku-master-2sz5.onrender.com';
+const URL='https://sudoku-server-2sz5.onrender.com';
+const CLIENT_URL='https://sudoku-master-9ytq.onrender.com/login';
 const list=[];
 const populate_list=(data)=>{list.push(data)};
 const addUser=async (data) =>{

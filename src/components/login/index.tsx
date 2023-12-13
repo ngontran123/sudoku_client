@@ -18,7 +18,8 @@ function Login()
  const [user,setUser]=useState(defaultValue);
  const [checkUser,setCheckuser]=useState(defaultValue);
  const [isValid,setIsValid]=useState(false);
- const userLogin=async(e)=>{
+ const userLogin=async(e)=>
+ {
   e.preventDefault();
   var empty_txt=checkTxtIsFilled(user);  
   if(empty_txt.length>0)
@@ -31,7 +32,9 @@ function Login()
   setUser({...user,[e.target.name]:e.target.value});
   setCheckuser(prevState=>({...prevState,[e.target.name]:''}));
  }
- const navigateClick=()=>{
+
+ const navigateClick=()=>
+ {
   navigate('/register');
  }
  

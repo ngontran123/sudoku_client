@@ -20,7 +20,7 @@ const [confirmPassword,setConfirmPassword]=useState('');
 const [isChecked,setIsChecked]=useState();
 const [user,setIsUser]=useState(defaultValue);
 const [checkUser,setCheckUser]=useState(defaultValue);
-const loginUrl="http://localhost:3000/login";
+const loginUrl="https://sudoku-master-9ytq.onrender.com/login";
 var onChange=(e)=>{
     if(e.target.checked)
     {
