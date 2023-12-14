@@ -12,11 +12,11 @@ const DropDownView=()=>{
   var current_user=JSON.parse(localStorage.getItem('current_user'));
   var current_user_avatar=current_user.avatar; 
   var current_username=current_user.username;
-
+  const CLIENT_URL='https://sudoku-master-9ytq.onrender.com';
    const signOut=()=>{
    localStorage.removeItem("token");
    localStorage.removeItem("current_user");
-    window.location.assign('http://localhost:3000/login');
+   window.location.assign(`${CLIENT_URL}/login`);
    }  
   
    const getUserInfo=async(e)=>
@@ -39,7 +39,6 @@ const DropDownView=()=>{
    const menu = (
       <HLMenu>
         <HLMenu.Item>
-          
        <a target="_self" onClick={getUserInfo}>
         Thông tin tài khoản
         </a>
