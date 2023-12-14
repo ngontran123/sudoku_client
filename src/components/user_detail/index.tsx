@@ -109,8 +109,7 @@ const UserDetail=({user})=>
      };
     await uploadImageToServer(data).then(async(res)=>{
     var url_image=res[0];
-    var status_url=res[1];
-  
+    var status_url=res[1]; 
     if(status_url===200)
     { 
         res_val=url_image;
@@ -146,7 +145,7 @@ return(
      <CardBody>
          <h3 className='text-uppercase'>Sửa thông tin người dùng</h3>
          <Container className='text-center mt-1'>
-                 <img style={{ maxWidth: '200px', maxHeight: '200px'}} src={image} alt="user profile picture" className='img-fluid rounded-circle' />
+           <img style={{ maxWidth: '200px', maxHeight: '200px'}} src={image} alt="user profile picture" className='img-fluid rounded-circle' />
          </Container>
          <div className='mt-3 text-center'>
          <Input className='text-light'type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" onChange={onImageChange}/>

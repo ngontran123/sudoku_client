@@ -85,7 +85,7 @@ function JoinRoom()
     const {userName,setUserName}=useContext(gameContext);
     const {email,setEmail}=useContext(gameContext);
     const navigate=useNavigate();
-    const CLIENT_URL='https://sudoku-master-9ytq.onrender.com/login';
+    const CLIENT_URL='https://sudoku-master-9ytq.onrender.com';
     const handleRoomNameChange=(e:React.ChangeEvent<any>)=>{
         e.preventDefault();
         const value=e.target.value;

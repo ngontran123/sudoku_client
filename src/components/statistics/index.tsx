@@ -91,7 +91,7 @@ return(
 <Card className='mt-3 border-0 rounded-0 shadow-sm' >
     <CardBody>
         <h3 style={{textAlign:'center'}}>Thống kê thành tích Multiplayer</h3>
-        <Table responsive striped hover bordered={true} border-spacing='0' width="100%" style={{marginLeft:'50px'}} className='text-center mt-5'>
+        <Table responsive striped hover bordered={true} border-spacing='0' width="100%" className='text-center mt-5'>
         <thead>
             <tr>
                 <th>Độ khó</th>

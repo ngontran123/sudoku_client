@@ -10,6 +10,7 @@ const list=[];
 const populate_list=(data)=>{list.push(data)};
 const addUser=async (data) =>{
     try{
+
     return await axios.post(`${URL}/verify`,data).then((res)=>{
         let response_data=res.data.message;
         AlertCheckDialog(res.data.message,'Gửi email thành công');
@@ -57,7 +58,8 @@ else{
 }
 const loginUser=async(data)=>
    {                         
-    try{
+    try
+    {
      return await axios.post(`${URL}/login`,data).then(async(res)=>{
        if(res.data.message!=='')
        {
