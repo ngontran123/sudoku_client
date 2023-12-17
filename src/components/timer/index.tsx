@@ -41,7 +41,7 @@ function Timer({isGameStarted,setSingleTimer})
         }
     return()=> {clearInterval(t);}
 
-    },[isGameStarted,time]
+    },[isGameStarted]
   );
     return(
         <TimerBoard>

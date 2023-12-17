@@ -22,7 +22,7 @@ flex-direction:column;
 align-items:center;
 justify-content:center;
 position:absolute;
-top:7%;
+top:17%;
 `;
 const Square=styled.div
 `width:50px;
@@ -854,7 +854,7 @@ useEffect(()=>{
     </div>
     </div>
    <Timer isGameStarted={gameStarted} setSingleTimer={setSingleTimer}/> 
-    <h2>Game {numGame}</h2>
+    <h2  style={{color:'#00ff9f',fontWeight:'bold'}}>Game {numGame}</h2>
     <Table>
        <tbody>
            {
