@@ -708,11 +708,11 @@ useEffect(()=>{
       var user_parse=JSON.parse(current_user);
       if (clear_user===user_parse.display_name)
       {
-        AlertCheckDialog("You have won this fucking game","End Game");
+        AlertCheckDialog("You have won this game","End Game");
       }
       else
       {
-        AlertErrorDialog("You have lose this fucking game","End Game");
+        AlertErrorDialog("You have lose this game","End Game");
       }
       await delay(5000);
       getWaitingRoom(token,roomName);
