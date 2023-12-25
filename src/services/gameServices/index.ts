@@ -118,6 +118,16 @@ public async singleSudokuPuzzle(socket:Socket,level:string):Promise<any>
     });
 }
 
+public async updateSudokuPuzzle(socket:Socket,board:ISudokuBoard)
+{
+    socket.emit("update_live_board",{board:board});
+}
+
+public async onUpdateSudokuPuzzle(socket:Socket,listener:(board:ISudokuBoard)=>void)
+{
+    socket.on("on_update_live_board",({board})=>listener(board));
+}
+
 
 public async updateScore(socket:Socket,user:string,message:string,first_player:string,second_player:string)
 {

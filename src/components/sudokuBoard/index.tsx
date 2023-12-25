@@ -43,6 +43,16 @@ font-size:25px;
 text-align:center; 
 }
 `;
+const SquareSmall=styled.div
+`width:25px;
+ height:25px;
+border:1px solid black;
+background-color:#ffffff;
+cursor:pointer;
+font-size:15px;
+text-align:center; 
+
+`;
 const Table=styled.table`
 border-collapse:collapse;
 border:3px solid #8e324d;
@@ -75,6 +85,17 @@ font-size:25px;
 text-align:center;
 }
 `
+const SquareBottomSmall=styled.div`
+width:25px;
+height:25px;
+border:1px solid black;
+border-bottom:3px solid black;
+background-color:#ffffff;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+
+`
 const SquareRight=styled.div`
 width:50px;
  height:50px;
@@ -95,6 +116,17 @@ cursor:pointer;
 font-size:25px;
 text-align:center;
 }
+`
+const SquareRightSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+border-right:3px solid black;
+background-color:#ffffff;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+
 `
 const SquareBottomRight=styled.div`
 width:50px;
@@ -119,6 +151,20 @@ font-size:25px;
 text-align:center;
 }
 `
+
+
+const SquareBottomRightSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+border-bottom:3px solid black;
+background-color:#ffffff;
+border-right:3px solid black;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+
+`
 const SquareBottomColor=styled.div`
 width:50px;
  height:50px;
@@ -140,6 +186,18 @@ text-align:center;
 background-color:#bf4747;
 }
 `
+const SquareBottomColorSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+border-bottom:3px solid black;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+background-color:#f96363;
+
+`
+
 const SquareRightColor=styled.div`
 width:50px;
  height:50px;
@@ -160,6 +218,19 @@ font-size:25px;
 text-align:center;
 background-color:#bf4747;
 }
+`
+
+
+const SquareRightColorSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+border-right:3px solid black;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+background-color:#f96363;
+
 `
 const SquareBottomRightColor=styled.div`
 width:50px;
@@ -184,6 +255,18 @@ text-align:center;
 background-color:#bf4747;
 }
 `
+
+const SquareBottomRightColorSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+border-bottom:3px solid black;
+border-right:3px solid black;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+background-color:#f96363;
+`
 const SquareColor=styled.div`
 width:50px;
  height:50px;
@@ -202,6 +285,16 @@ font-size:25px;
 text-align:center;
 background-color:#bf4747;
 }
+`
+
+const SquareColorSmall=styled.div`
+width:25px;
+ height:25px;
+border:1px solid black;
+cursor:pointer;
+font-size:15px;
+text-align:center;
+background-color:#f96363;
 `
 const PlayStopper = styled.div`
   width: 100%;
@@ -259,6 +352,7 @@ function SudokuBoard({firstPlayer,secondPlayer})
   const [text,setText]=useState("");
   const {stopGame,setStopGame}=useContext(gameContext);
   const {boardSolved,setBoardSolved}=useContext(gameContext);
+  const [liveBoard,setLiveBoard]=useState<ISudokuBoard>([]);
   const [isNote,setIsNote]=useState(false);
   const [arrayNote,setArrayNote]=useState([...Array(9)].map(x=>[...Array(9)].map(x=>[...Array(9)].map(x=>x))));
   const [numGame,setNumGame]=useState(1);
@@ -267,8 +361,12 @@ function SudokuBoard({firstPlayer,secondPlayer})
   const [secondPlayerScore,setSecondPlayerScore]=useState(0);
   const [coordinateHint,setCoordinateHint]=useState([]);
   const [singleTimer,setSingleTimer]=useState('');
+  const [convertSudokuPuzzle,setConvertSudokuPuzzle]=useState<ISudokuBoard>([]);
   const [hintClick,sethintClick]=useState(3);
   const delay=ms=>new Promise(rs=>setTimeout(rs,ms));
+  var current_user=localStorage.getItem('current_user');
+  var user_name=JSON.parse(current_user).display_name;
+  var token=localStorage.getItem('token');
   var arr1=[];
   var arr2=[];
   
@@ -277,6 +375,7 @@ function SudokuBoard({firstPlayer,secondPlayer})
     var t=game1;
     var t1=arrayCopy(board);
     var t2=isClickable;
+    var updateLiveBoard=[...convertSudokuPuzzle];
     for(let i=0;i<9;i++)
     {
         for(let j=0;j<9;j++)
@@ -287,12 +386,15 @@ function SudokuBoard({firstPlayer,secondPlayer})
             {
                 t1[i][j]="";
                 t2[i][j]=true;
+                updateLiveBoard[i][j]='';
             }
           }
         }
     }
     setIsClickable(t2);
     setBoard(t1);
+    setConvertSudokuPuzzle(updateLiveBoard);
+    gameServices.updateSudokuPuzzle(socketService.socket,updateLiveBoard);
   }
   var splitArray=(arr,part)=>{
     var tmp=[];
@@ -468,7 +570,7 @@ else{
     let c1=0;
     var s=sol1;
     if(l===81)
-    {
+  {
    for(let i=0;i<9;i++)
    {
     for(let j=0;j<9;j++)
@@ -481,13 +583,13 @@ else{
    }
       if(c1===81)
       {
-        var current_user=localStorage.getItem('current_user');
         gameServices.updateTimer(socketService.socket,false,numGame);
         gameServices.updateScore(socketService.socket,current_user,numGame.toString(),firstPlayer.display_name,secondPlayer.display_name);
         AlertCheckDialog(`You have won game ${numGame}`,`Game ${numGame}`);
         setGameStarted(false);
       }
-      else{
+      else
+      {
         AlertErrorDialog("Your solution is wrong!!!",`Game ${numGame}`);
       }
     }
@@ -570,6 +672,10 @@ var initGameBoard=(list)=>{
       }
     }  
      setBoard(ar);
+     var arr_live_copy=cloneDeep(ar);
+     var arr_live_convert=cloneDeep(ar);
+     setLiveBoard(arr_live_copy);
+     setConvertSudokuPuzzle(arr_live_convert);
      setSol1(ar_sol);
      var arr_copy=cloneDeep(ar);
      setGame1(arr_copy);
@@ -580,9 +686,8 @@ var initGameBoard=(list)=>{
   }
 
 useEffect(()=>{
-  var current_user=localStorage.getItem('current_user');
+
   var roomName=localStorage.getItem('room_name');
-  var token=localStorage.getItem('token');
   if(numGame===1)
   {
     gameServices.beginGame(socketService.socket,current_user);
@@ -628,6 +733,9 @@ useEffect(()=>{
    sethintClick(3);
    setNumGame(prev=>prev+1);
   });
+  gameServices.onUpdateSudokuPuzzle(socketService.socket,(board)=>{
+     setLiveBoard(board);
+  });
   }
 ,[]);
 
@@ -645,9 +753,13 @@ useEffect(()=>{
       if(newValue!==0&&isCl[row][column]===true)
       {
       let newArray=[...board];
+      let newLiveSudokuArray=[...convertSudokuPuzzle];
       newArray[row][column]=(newValue.toString());
+      newLiveSudokuArray[row][column]='-1';
       setBoard(newArray);
+      setConvertSudokuPuzzle(newLiveSudokuArray);
       setIsClickable(isCl);
+      gameServices.updateSudokuPuzzle(socketService.socket,newLiveSudokuArray);
       if(checkLength(newArray)===81)
       { 
         checkWiner(newArray);
@@ -690,19 +802,22 @@ useEffect(()=>{
       {
         handleHintClick();
       }
-      
   }
   const Clear=(row,column)=>
   {
       var newArray=arrayCopy(board);
+      var updateLiveBoard=[...convertSudokuPuzzle];
       var isClick=arrayCopy(isClickable);
       var is_deletable=checkValidCoordinate(row,column,coordinateHint);
       if(!is_deletable)
       {
       newArray[row][column]='';
+      updateLiveBoard[row][column]='';
       setBoard(newArray);
+      setConvertSudokuPuzzle(updateLiveBoard);
       isClick[row][column]=true
       setIsClickable(isClick);
+      gameServices.updateSudokuPuzzle(socketService.socket,updateLiveBoard);
       }
   }
 
@@ -717,6 +832,7 @@ useEffect(()=>{
     sethintClick((prev)=>prev-1);
     var flag_board=false;
     let new_array=[...board];
+    let updateLiveBoard=[...convertSudokuPuzzle];
     let coord_array=[...coordinateHint];
     var clickable_array=[...isClickable];
     if(hintClick%2===0)
@@ -729,6 +845,7 @@ useEffect(()=>{
         if(new_array[i][j]!==sol1[i][j])
         {
         new_array[i][j]=sol1[i][j];
+        updateLiveBoard[i][j]='-1';
         clickable_array[i][j]=false;
         let coord=`${i}:${j}`;
         coord_array.push(coord);
@@ -751,6 +868,7 @@ useEffect(()=>{
           if(new_array[i][j]!==sol1[i][j])
           { 
             new_array[i][j]=sol1[i][j];
+            updateLiveBoard[i][j]='-1';
             clickable_array[i][j]=false;
             let coord=`${i}:${j}`;
            coord_array.push(coord);
@@ -765,8 +883,10 @@ useEffect(()=>{
       }
     }
     setBoard(new_array);
+    setConvertSudokuPuzzle(updateLiveBoard);
     setIsClickable(clickable_array);
     setCoordinateHint(coord_array);
+    gameServices.updateSudokuPuzzle(socketService.socket,updateLiveBoard);
     if(checkLength(new_array)===81)
     { 
       checkWiner(new_array);
@@ -854,8 +974,9 @@ useEffect(()=>{
     </div>
     </div>
    <Timer isGameStarted={gameStarted} setSingleTimer={setSingleTimer}/> 
-    <h2  style={{color:'#00ff9f',fontWeight:'bold'}}>Game {numGame}</h2>
-    <Table>
+    <h2 style={{color:'#00ff9f',fontWeight:'bold'}}>Game {numGame}</h2>
+    <div className="table-container">
+    <Table className="table-left">
        <tbody>
            {
                board.map((row,rIndex)=>{
@@ -872,6 +993,25 @@ useEffect(()=>{
            }
       </tbody>
     </Table>
+    <h4 className="user-live-board-title">{user_name===firstPlayer.display_name?secondPlayer.display_name:firstPlayer.display_name}'s board:</h4>
+    <Table className="table-right">
+       <tbody>
+           {
+               liveBoard.map((row,rIndex)=>{
+                   return(
+                       <tr key={rIndex}>
+                         {row.map((column,cIndex)=>{
+                             return(<Td key={cIndex+rIndex} className="puzzleNumber">
+                                {(!puzzleButton[rIndex][cIndex])?(((rIndex+1)%3===0&&(cIndex+1)%3===0)?<SquareBottomRightSmall style={{backgroundColor:column!==''?'greenyellow':'whitesmoke'}}></SquareBottomRightSmall>:(rIndex+1)%3===0?<SquareBottomSmall style={{backgroundColor:column!==''?'greenyellow':'whitesmoke'}}></SquareBottomSmall>:((cIndex+1)%3===0)?<SquareRightSmall style={{backgroundColor:column!==''?'greenyellow':'whitesmoke'}}></SquareRightSmall>:<SquareSmall style={{backgroundColor:column!==''?'greenyellow':'whitesmoke'}}></SquareSmall>):(((rIndex+1)%3===0&&(cIndex+1)%3===0)?<SquareBottomRightColorSmall>{column}</SquareBottomRightColorSmall>:(rIndex+1)%3===0?<SquareBottomColorSmall>{column}</SquareBottomColorSmall>:((cIndex+1)%3===0)?<SquareRightColorSmall>{column}</SquareRightColorSmall>:<SquareColorSmall>{column}</SquareColorSmall>)}
+                             </Td>);
+                         })}
+                       </tr>
+                   );
+               })
+           }
+      </tbody>
+    </Table>
+  </div>
     <ChangeButton setClickValue={setValue} selected={value}/>
     <Button handlePress={handleButton} isNote={isNote} hint_count={hintClick}/>
 </BoardContainer>);
