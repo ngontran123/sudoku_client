@@ -872,7 +872,7 @@ useEffect(()=>{
             clickable_array[i][j]=false;
             let coord=`${i}:${j}`;
            coord_array.push(coord);
-            flag_board=true;
+          flag_board=true;
             break;
           }
         }
