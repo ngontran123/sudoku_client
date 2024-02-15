@@ -8,7 +8,7 @@ import {
   MDBCardFooter,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import "@fortawesome/fontawesome-free/css/all.min.css";
+//import "@fortawesome/fontawesome-free/css/all.min.css";
 //import "bootstrap-css-only/css/bootstrap.min.css";
 import gameServices from "../../services/gameServices";
 import socketService from "../../services/socketService";
