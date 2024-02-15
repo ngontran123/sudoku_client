@@ -62,6 +62,37 @@ public async onLogoutRoom(socket:Socket,listener:(slot:string)=>void)
 {
     socket.on('on_leave_room',async({slot})=>listener(slot));
 }
+
+public async whoTyping(socket:Socket,username:string)
+{ 
+    socket.emit("who_typing",{username});
+}
+
+public async onWhoTyping(socket:Socket,listener:(username:string)=>void)
+{
+    socket.on("on_who_typing",({username})=>listener(username));
+}
+
+public async sendMessage(socket:Socket,curr_message:string,room_name:string,timestamp:Date)
+{
+    socket.emit("send_message",{curr_message,room_name,timestamp});
+}
+
+public async onSendMessage(socket:Socket,listener:(curr_mess:string,is_first:boolean)=>void)
+{
+    socket.on("on_send_message",({curr_mess,is_first})=>listener(curr_mess,is_first));
+}
+
+public async initChatGroup(socket:Socket,count_record:number,first_user:string,second_user:string,is_init:boolean)
+{
+    socket.emit("init_chat_group",{count_record,first_user,second_user,is_init});
+}
+
+public async onInitChatGroup(socket:Socket,listener:(array_mess:Array<string|null>)=>void)
+{
+    socket.on('on_init_chat_group',({array_mess})=>listener(array_mess));
+}
+
 public async popupModal(socket:Socket,popup:boolean,game_level)
 {
     socket.emit('popup_modal',{popup,game_level});
@@ -127,7 +158,6 @@ public async onUpdateSudokuPuzzle(socket:Socket,listener:(board:ISudokuBoard)=>v
 {
     socket.on("on_update_live_board",({board})=>listener(board));
 }
-
 
 public async updateScore(socket:Socket,user:string,message:string,first_player:string,second_player:string)
 {
