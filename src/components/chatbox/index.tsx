@@ -178,27 +178,25 @@ const onEmojiClickEvent=(e)=>
 //  },[])
 
  useEffect(()=>{
-if(isInit)
-{ 
-scrollToBottom();
-setIsInit(false);
-}
-else
-{
+
+
+
 if(socketService.socket)
 { 
-if(messageArr.length>isNewMess)
-{
-setIsNewMess(messageArr.length);
+  if(isInit)
+  { 
+  scrollToBottom();
+  setIsInit(false);
+  }
 gameServices.onInitChatGroup(socketService.socket,(array_mess)=>
 {
    setMessageArr(array_mess);
 });
-if((messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)!==currentScroll)
+if((messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)!==currentScroll && !isInit)
 { 
  messagesContainerRef.current.scrollTop=(messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)-currentScroll;
 }
-}
+
 gameServices.onSendMessage(socketService.socket,(curr_mess,is_first)=>
 { 
   var arr_mess=cloneDeep(messageArr);
@@ -206,7 +204,7 @@ gameServices.onSendMessage(socketService.socket,(curr_mess,is_first)=>
   setMessageArr(arr_mess);
 });
 }
-}
+
  },[messageArr]);
 return(
     <div>
