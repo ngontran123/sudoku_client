@@ -66,11 +66,9 @@ var handleScroll=async(e)=>
   if(curr_scroll>prevScroll)
   {  
     setPrevScroll(curr_scroll);
+    setCurrentScroll(curr_scroll);
   } 
-  setCurrentScroll(curr_scroll); 
-
   setRecordCount(prev=>prev+5);
-
   if(socketService.socket)
   { 
     await gameServices.initChatGroup(socketService.socket,recordCount,first_user_displayname,second_user_displayname,false);
@@ -120,11 +118,10 @@ var messageHandling=(mess:string)=>
   setCounter((prev)=>prev+1000);
 }
 const scrollToBottom = () => {
-  
-    setPrevScroll(messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight);
-    setCurrentScroll(messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight);
-    messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
-  
+    if(messagesContainerRef.current)
+    {  
+      messagesContainerRef.current.scrollTop=messagesContainerRef.current.scrollHeight;
+    }
 };
 
 var onKeyDownEvent=(e)=>
@@ -186,20 +183,21 @@ if(isInit)
 scrollToBottom();
 setIsInit(false);
 }
+else
+{
 if(socketService.socket)
 { 
 if(messageArr.length>isNewMess)
 {
-  setIsNewMess(messageArr.length);
+setIsNewMess(messageArr.length);
 gameServices.onInitChatGroup(socketService.socket,(array_mess)=>
 {
-  
-  if((messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)!==currentScroll)
-  {
-   messagesContainerRef.current.scrollTop=(messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)-currentScroll;
-  }
    setMessageArr(array_mess);
 });
+if((messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)!==currentScroll)
+{ 
+ messagesContainerRef.current.scrollTop=(messagesContainerRef.current.scrollHeight-messagesContainerRef.current.clientHeight)-currentScroll;
+}
 }
 gameServices.onSendMessage(socketService.socket,(curr_mess,is_first)=>
 { 
@@ -207,6 +205,7 @@ gameServices.onSendMessage(socketService.socket,(curr_mess,is_first)=>
   arr_mess.push(curr_mess)
   setMessageArr(arr_mess);
 });
+}
 }
  },[messageArr]);
 return(
